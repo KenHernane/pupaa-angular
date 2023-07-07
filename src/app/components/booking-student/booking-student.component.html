@@ -1,0 +1,1245 @@
+<body>
+  <app-header></app-header>
+  <div class="container-fluid mt-5" id="body">
+
+    <div class="row">
+      <div class="col-lg-4 tanginamo">
+        <div class="card">
+          <div class="card-body">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur beatae repellat reprehenderit laudantium totam unde officiis nulla accusantium porro sit repellendus at adipisci sint dolores, cum dignissimos dolor! Laboriosam, amet?
+          </div>
+          </div>
+      </div>
+      <div class="col-lg-8">
+      <form [formGroup]="booking" (ngSubmit)="onSubmit()">
+        <div class="card purpose">
+          <div class="card-body">
+            <h1 class="card-title">Select Transaction</h1>
+            <label for="type">Type</label>
+            <select class="form-select transaction" name="type" (ngModelChange)="select($event)" [(ngModel)]="selectPurpose" formControlName='purpose' aria-label="Select Transaction">
+              <option selected disabled>Select Transaction</option>
+              <option value="processingDocuments">Processing of Documents</option>
+              <option value="meetingStaff">Meet/Talk to a Staff/Faculty</option>
+            </select>
+            <div *ngIf="this.fc['purpose'].errors && isSubmitted">
+              <div class="alert alert-danger" role="alert" *ngIf="this.fc['purpose'].hasError('required')">Purpose of Visit Field is Required</div>
+            </div>
+
+          <ng-container *ngIf="visible">
+            <label for="meet">Select a Person to Meet </label>
+            <select class="form-select" name="meet" formControlName='meet' [(ngModel)]="meet" aria-label="Select Document">
+              <option selected disabled>Select a Person to Meet</option>
+              <option value="Gil Acierto">Gil Acierto</option>
+              <option value="Leny Salmingo">Leny Salmingo</option>
+              <option value="Emy Alinsod">Emy Alinsod</option>
+              <option value="Iya Esma">Iya Esma</option>
+              <option value="Angelita Nocon">Angelita Nocon</option>
+            </select>
+             <div *ngIf="this.fc['meet'].errors && isSubmitted">
+              <div class="alert alert-danger" role="alert" *ngIf="this.fc['meet'].hasError('required')">Person to Meet Field is Required</div>
+            </div>
+          </ng-container>
+          <label for="documents"> Transaction/Documents to Process</label>
+          <select class="form-select" name="documents" formControlName='documents' (ngModelChange)="onChange($event)" [(ngModel)]="document" aria-label="Select Document">
+            <option selected disabled>Select</option>
+            <option *ngFor="let trans of transactions" [ngValue]="trans.meet">{{ trans.meet }}</option>
+          </select>
+          <div *ngIf="this.fc['documents'].errors && isSubmitted">
+              <div class="alert alert-danger" role="alert" *ngIf="this.fc['documents'].hasError('required')">Transaction/Documents Field is Required</div>
+          </div>
+          <ng-container *ngIf="offices != undefined && meet === undefined">
+            <h1>Office/s to Visit:</h1>
+          </ng-container>
+          <div class="col-lg-8" *ngFor="let off of offices">
+              {{ off }}
+          </div>
+        </div>
+      </div>
+      <div class="card">
+      <div class="card-body">
+        <div class="col-lg-8">
+          <h1 class="card-title">Select Date and Time</h1>
+          <ion-row>
+            <ion-col>
+                <div class="datepickerDisplay">
+                  <div class="grid">
+                    <div class="row">
+                      <ng-container *ngIf="meet === 'Gil Acierto'">
+                        <div class="col-lg-12">
+                          <h5>{{ meet }}</h5>
+                          <ion-datetime  [showDefaultButtons]="true" [min]="dateMin" (ionChange)="onSelect($event)" [(ngModel)]="date" display-format="DD/MM/YYYY" formControlName="date" presentation="date" mode="ios"></ion-datetime>
+                           <div *ngIf="this.fc.date.errors && isSubmitted">
+                            <div class="alert alert-danger" role="alert" *ngIf="this.fc.date.hasError('required')">Date Field is Required</div>
+                          </div>
+                        </div>
+
+                         <div class="col">
+                              <div class="container selectTime">
+                                <h5 class="label">Select Time: </h5>
+                                <div class="row ">
+                                  <div class="col">
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="time" [(ngModel)]="time" value="8:00 AM - 9:00 AM" formControlName="time" id="eight">
+                                      <label class="form-check-label" for="time">
+                                        8:00 AM - 9:00 AM
+                                      </label>
+                                    </div>
+                                  </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ eight }}</p>
+                              </div>
+                            </div>
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="9:00 AM - 10:00 AM" formControlName="time" name="time" id="nine">
+                                  <label class="form-check-label" for="time">
+                                    9:00 AM - 10:00 AM
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ nine }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="10:00 AM - 11:00 AM" formControlName="time" name="time" id="ten">
+                                  <label class="form-check-label" for="time">
+                                    10:00 AM - 11:00 AM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ ten }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="1:00 PM - 2:00 PM" formControlName="time" name="time" id="one">
+                                  <label class="form-check-label" for="time">
+                                    1:00 PM - 2:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ one }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="2:00 PM - 3:00 PM" formControlName="time" name="time" id="two">
+                                  <label class="form-check-label" for="time">
+                                    2:00 PM - 3:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ two }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="3:00 PM - 4:00 PM" formControlName="time" name="time" id="three">
+                                  <label class="form-check-label" for="time">
+                                    3:00 PM - 4:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ three }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="4:00 PM - 5:00 PM" formControlName="time" name="time" id="four">
+                                  <label class="form-check-label" for="time">
+                                    4:00 PM - 5:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ four }}</p>
+                              </div>
+                            </div>
+                            </div>
+                           <div *ngIf="this.fc.time.errors && isSubmitted">
+                            <div class="alert alert-danger" role="alert" *ngIf="this.fc.time.hasError('required')">Time Field is Required</div>
+                          </div>
+                        </div>
+                        </ng-container>
+                        <ng-container *ngIf="meet === 'Iya Esma'">
+                        <div class="col-lg-12">
+                          <h5>{{ meet }}</h5>
+                          <ion-datetime  [showDefaultButtons]="true" [min]="dateMin" (ionChange)="onSelect($event)" [(ngModel)]="date" display-format="DD/MM/YYYY" formControlName="date" presentation="date" mode="ios"></ion-datetime>
+                           <div *ngIf="this.fc.date.errors && isSubmitted">
+                            <div class="alert alert-danger" role="alert" *ngIf="this.fc.date.hasError('required')">Date Field is Required</div>
+                          </div>
+                        </div>
+                         <div class="col">
+                              <div class="container selectTime">
+                                <h5 class="label">Select Time: </h5>
+                                <div class="row ">
+                                  <div class="col">
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="time" [(ngModel)]="time" value="8:00 AM - 9:00 AM" formControlName="time" id="eight">
+                                      <label class="form-check-label" for="time">
+                                        8:00 AM - 9:00 AM
+                                      </label>
+                                    </div>
+                                  </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ eight }}</p>
+                              </div>
+                            </div>
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="9:00 AM - 10:00 AM" formControlName="time" name="time" id="nine">
+                                  <label class="form-check-label" for="time">
+                                    9:00 AM - 10:00 AM
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ nine }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="10:00 AM - 11:00 AM" formControlName="time" name="time" id="ten">
+                                  <label class="form-check-label" for="time">
+                                    10:00 AM - 11:00 AM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ ten }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="1:00 PM - 2:00 PM" formControlName="time" name="time" id="one">
+                                  <label class="form-check-label" for="time">
+                                    1:00 PM - 2:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ one }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="2:00 PM - 3:00 PM" formControlName="time" name="time" id="two">
+                                  <label class="form-check-label" for="time">
+                                    2:00 PM - 3:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ two }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="3:00 PM - 4:00 PM" formControlName="time" name="time" id="three">
+                                  <label class="form-check-label" for="time">
+                                    3:00 PM - 4:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ three }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="4:00 PM - 5:00 PM" formControlName="time" name="time" id="four">
+                                  <label class="form-check-label" for="time">
+                                    4:00 PM - 5:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ four }}</p>
+                              </div>
+                            </div>
+                            </div>
+                           <div *ngIf="this.fc.time.errors && isSubmitted">
+                            <div class="alert alert-danger" role="alert" *ngIf="this.fc.time.hasError('required')">Time Field is Required</div>
+                          </div>
+                        </div>
+                        </ng-container>
+                        <ng-container *ngIf="meet === 'Angelita Nocon'">
+                        <div class="col-lg-12">
+                          <h5>{{ meet }}</h5>
+                          <ion-datetime  [showDefaultButtons]="true" [min]="dateMin" (ionChange)="onSelect($event)" [(ngModel)]="date" display-format="DD/MM/YYYY" formControlName="date" presentation="date" mode="ios"></ion-datetime>
+                           <div *ngIf="this.fc.date.errors && isSubmitted">
+                            <div class="alert alert-danger" role="alert" *ngIf="this.fc.date.hasError('required')">Date Field is Required</div>
+                          </div>
+                        </div>
+                         <div class="col">
+                              <div class="container selectTime">
+                                <h5 class="label">Select Time: </h5>
+                                <div class="row ">
+                                  <div class="col">
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="time" [(ngModel)]="time" value="8:00 AM - 9:00 AM" formControlName="time" id="eight">
+                                      <label class="form-check-label" for="time">
+                                        8:00 AM - 9:00 AM
+                                      </label>
+                                    </div>
+                                  </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ eight }}</p>
+                              </div>
+                            </div>
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="9:00 AM - 10:00 AM" formControlName="time" name="time" id="nine">
+                                  <label class="form-check-label" for="time">
+                                    9:00 AM - 10:00 AM
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ nine }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="10:00 AM - 11:00 AM" formControlName="time" name="time" id="ten">
+                                  <label class="form-check-label" for="time">
+                                    10:00 AM - 11:00 AM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ ten }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="1:00 PM - 2:00 PM" formControlName="time" name="time" id="one">
+                                  <label class="form-check-label" for="time">
+                                    1:00 PM - 2:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ one }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="2:00 PM - 3:00 PM" formControlName="time" name="time" id="two">
+                                  <label class="form-check-label" for="time">
+                                    2:00 PM - 3:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ two }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="3:00 PM - 4:00 PM" formControlName="time" name="time" id="three">
+                                  <label class="form-check-label" for="time">
+                                    3:00 PM - 4:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ three }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="4:00 PM - 5:00 PM" formControlName="time" name="time" id="four">
+                                  <label class="form-check-label" for="time">
+                                    4:00 PM - 5:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ four }}</p>
+                              </div>
+                            </div>
+                            </div>
+                           <div *ngIf="this.fc.time.errors && isSubmitted">
+                            <div class="alert alert-danger" role="alert" *ngIf="this.fc.time.hasError('required')">Time Field is Required</div>
+                          </div>
+                        </div>
+                        </ng-container>
+                        <ng-container *ngIf="meet === 'Leny Salmingo'">
+                        <div class="col-lg-12">
+                          <h5>{{ meet }}</h5>
+                          <ion-datetime  [showDefaultButtons]="true" [min]="dateMin" (ionChange)="onSelect($event)" [(ngModel)]="date" display-format="DD/MM/YYYY" formControlName="date" presentation="date" mode="ios"></ion-datetime>
+                           <div *ngIf="this.fc.date.errors && isSubmitted">
+                            <div class="alert alert-danger" role="alert" *ngIf="this.fc.date.hasError('required')">Date Field is Required</div>
+                          </div>
+                        </div>
+                         <div class="col">
+                              <div class="container selectTime">
+                                <h5 class="label">Select Time: </h5>
+                                <div class="row ">
+                                  <div class="col">
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="time" [(ngModel)]="time" value="8:00 AM - 9:00 AM" formControlName="time" id="eight">
+                                      <label class="form-check-label" for="time">
+                                        8:00 AM - 9:00 AM
+                                      </label>
+                                    </div>
+                                  </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ eight }}</p>
+                              </div>
+                            </div>
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="9:00 AM - 10:00 AM" formControlName="time" name="time" id="nine">
+                                  <label class="form-check-label" for="time">
+                                    9:00 AM - 10:00 AM
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ nine }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="10:00 AM - 11:00 AM" formControlName="time" name="time" id="ten">
+                                  <label class="form-check-label" for="time">
+                                    10:00 AM - 11:00 AM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ ten }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="1:00 PM - 2:00 PM" formControlName="time" name="time" id="one">
+                                  <label class="form-check-label" for="time">
+                                    1:00 PM - 2:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ one }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="2:00 PM - 3:00 PM" formControlName="time" name="time" id="two">
+                                  <label class="form-check-label" for="time">
+                                    2:00 PM - 3:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ two }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="3:00 PM - 4:00 PM" formControlName="time" name="time" id="three">
+                                  <label class="form-check-label" for="time">
+                                    3:00 PM - 4:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ three }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="4:00 PM - 5:00 PM" formControlName="time" name="time" id="four">
+                                  <label class="form-check-label" for="time">
+                                    4:00 PM - 5:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ four }}</p>
+                              </div>
+                            </div>
+                            </div>
+                           <div *ngIf="this.fc.time.errors && isSubmitted">
+                            <div class="alert alert-danger" role="alert" *ngIf="this.fc.time.hasError('required')">Time Field is Required</div>
+                          </div>
+                        </div>
+                        </ng-container>
+                        <ng-container *ngIf="meet === 'Emy Alinsod'">
+                        <div class="col-lg-12">
+                          <h5>{{ meet }}</h5>
+                          <ion-datetime  [showDefaultButtons]="true" [min]="dateMin" (ionChange)="onSelect($event)" [(ngModel)]="date" display-format="DD/MM/YYYY" formControlName="date" presentation="date" mode="ios"></ion-datetime>
+                           <div *ngIf="this.fc.date.errors && isSubmitted">
+                            <div class="alert alert-danger" role="alert" *ngIf="this.fc.date.hasError('required')">Date Field is Required</div>
+                          </div>
+                        </div>
+                         <div class="col">
+                              <div class="container selectTime">
+                                <h5 class="label">Select Time: </h5>
+                                <div class="row ">
+                                  <div class="col">
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="time" [(ngModel)]="time" value="8:00 AM - 9:00 AM" formControlName="time" id="eight">
+                                      <label class="form-check-label" for="time">
+                                        8:00 AM - 9:00 AM
+                                      </label>
+                                    </div>
+                                  </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ eight }}</p>
+                              </div>
+                            </div>
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="9:00 AM - 10:00 AM" formControlName="time" name="time" id="nine">
+                                  <label class="form-check-label" for="time">
+                                    9:00 AM - 10:00 AM
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ nine }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="10:00 AM - 11:00 AM" formControlName="time" name="time" id="ten">
+                                  <label class="form-check-label" for="time">
+                                    10:00 AM - 11:00 AM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ ten }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="1:00 PM - 2:00 PM" formControlName="time" name="time" id="one">
+                                  <label class="form-check-label" for="time">
+                                    1:00 PM - 2:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ one }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="2:00 PM - 3:00 PM" formControlName="time" name="time" id="two">
+                                  <label class="form-check-label" for="time">
+                                    2:00 PM - 3:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ two }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="3:00 PM - 4:00 PM" formControlName="time" name="time" id="three">
+                                  <label class="form-check-label" for="time">
+                                    3:00 PM - 4:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ three }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="4:00 PM - 5:00 PM" formControlName="time" name="time" id="four">
+                                  <label class="form-check-label" for="time">
+                                    4:00 PM - 5:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ four }}</p>
+                              </div>
+                            </div>
+                            </div>
+                           <div *ngIf="this.fc.time.errors && isSubmitted">
+                            <div class="alert alert-danger" role="alert" *ngIf="this.fc.time.hasError('required')">Time Field is Required</div>
+                          </div>
+                        </div>
+                        </ng-container>
+                    </div>
+                    <div class="row" *ngFor="let off of offices">
+                      <ng-container  *ngIf="off === 'Office of the Campus Director'">
+                        <div class="col-lg-12">
+                          <h5>{{ off }}</h5>
+                          <ion-datetime  [showDefaultButtons]="true" [min]="dateMin" (ionChange)="onSelect($event)" [(ngModel)]="date" display-format="DD/MM/YYYY" formControlName="date" presentation="date" mode="ios"></ion-datetime>
+                           <div *ngIf="this.fc.date.errors && isSubmitted">
+                            <div class="alert alert-danger" role="alert" *ngIf="this.fc.date.hasError('required')">Date Field is Required</div>
+                          </div>
+                        </div>
+                         <div class="col">
+                              <div class="container selectTime">
+                                <h5 class="label">Select Time: </h5>
+                                <div class="row ">
+                                  <div class="col">
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="time" [(ngModel)]="time" value="8:00 AM - 9:00 AM" formControlName="time" id="eight">
+                                      <label class="form-check-label" for="time">
+                                        8:00 AM - 9:00 AM
+                                      </label>
+                                    </div>
+                                  </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ eight }}</p>
+                              </div>
+                            </div>
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="9:00 AM - 10:00 AM" formControlName="time" name="time" id="nine">
+                                  <label class="form-check-label" for="time">
+                                    9:00 AM - 10:00 AM
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ nine }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="10:00 AM - 11:00 AM" formControlName="time" name="time" id="ten">
+                                  <label class="form-check-label" for="time">
+                                    10:00 AM - 11:00 AM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ ten }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="1:00 PM - 2:00 PM" formControlName="time" name="time" id="one">
+                                  <label class="form-check-label" for="time">
+                                    1:00 PM - 2:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ one }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="2:00 PM - 3:00 PM" formControlName="time" name="time" id="two">
+                                  <label class="form-check-label" for="time">
+                                    2:00 PM - 3:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ two }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="3:00 PM - 4:00 PM" formControlName="time" name="time" id="three">
+                                  <label class="form-check-label" for="time">
+                                    3:00 PM - 4:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ three }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="4:00 PM - 5:00 PM" formControlName="time" name="time" id="four">
+                                  <label class="form-check-label" for="time">
+                                    4:00 PM - 5:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ four }}</p>
+                              </div>
+                            </div>
+                            </div>
+                           <div *ngIf="this.fc.time.errors && isSubmitted">
+                            <div class="alert alert-danger" role="alert" *ngIf="this.fc.time.hasError('required')">Time Field is Required</div>
+                          </div>
+                      </div>
+                      </ng-container>
+                      <ng-container  *ngIf="off === 'Registrar'">
+                        <div class="col-lg-12">
+                          <h5>{{ off }}</h5>
+                          <ion-datetime  [showDefaultButtons]="true" [min]="dateMin" (ionChange)="onSelect($event)" [(ngModel)]="date" display-format="DD/MM/YYYY" formControlName="date" presentation="date" mode="ios"></ion-datetime>
+                           <div *ngIf="this.fc.date.errors && isSubmitted">
+                            <div class="alert alert-danger" role="alert" *ngIf="this.fc.date.hasError('required')">Date Field is Required</div>
+                          </div>
+                        </div>
+                         <div class="col">
+                              <div class="container selectTime">
+                                <h5 class="label">Select Time: </h5>
+                                <div class="row ">
+                                  <div class="col">
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="time" [(ngModel)]="time" value="8:00 AM - 9:00 AM" formControlName="time" id="eight">
+                                      <label class="form-check-label" for="time">
+                                        8:00 AM - 9:00 AM
+                                      </label>
+                                    </div>
+                                  </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ eight }}</p>
+                              </div>
+                            </div>
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="9:00 AM - 10:00 AM" formControlName="time" name="time" id="nine">
+                                  <label class="form-check-label" for="time">
+                                    9:00 AM - 10:00 AM
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ nine }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="10:00 AM - 11:00 AM" formControlName="time" name="time" id="ten">
+                                  <label class="form-check-label" for="time">
+                                    10:00 AM - 11:00 AM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ ten }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="1:00 PM - 2:00 PM" formControlName="time" name="time" id="one">
+                                  <label class="form-check-label" for="time">
+                                    1:00 PM - 2:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ one }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="2:00 PM - 3:00 PM" formControlName="time" name="time" id="two">
+                                  <label class="form-check-label" for="time">
+                                    2:00 PM - 3:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ two }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="3:00 PM - 4:00 PM" formControlName="time" name="time" id="three">
+                                  <label class="form-check-label" for="time">
+                                    3:00 PM - 4:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ three }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="4:00 PM - 5:00 PM" formControlName="time" name="time" id="four">
+                                  <label class="form-check-label" for="time">
+                                    4:00 PM - 5:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ four }}</p>
+                              </div>
+                            </div>
+                            </div>
+                           <div *ngIf="this.fc.time.errors && isSubmitted">
+                            <div class="alert alert-danger" role="alert" *ngIf="this.fc.time.hasError('required')">Time Field is Required</div>
+                          </div>
+                      </div>
+                      </ng-container>
+                      <ng-container  *ngIf="off === 'Academic Services'">
+                        <div class="col-lg-12">
+                          <h5>{{ off }}</h5>
+                          <ion-datetime [showDefaultButtons]="true" (ionChange)="onSelectAcad($event)" [min]="dateMin" [(ngModel)]="date" display-format="DD/MM/YYYY" formControlName="date" presentation="date" mode="ios"></ion-datetime>
+
+                        </div>
+                          <div class="col">
+                              <div class="container selectTime">
+                                <h5 class="label">Select Time: </h5>
+                                <div *ngIf="this.fc.time.errors && isSubmitted">
+                                  <div class="alert alert-danger" role="alert" *ngIf="this.fc.time.hasError('required')">Time Field is Required</div>
+                                </div>
+                                <div class="row ">
+                                  <div class="col">
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="time" [(ngModel)]="time" value="8:00 AM - 9:00 AM" formControlName="time" id="eight">
+                                      <label class="form-check-label" for="time">
+                                        8:00 AM - 9:00 AM
+                                      </label>
+                                    </div>
+                                  </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ eight2 }}</p>
+                              </div>
+                            </div>
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="9:00 AM - 10:00 AM" formControlName="time" name="time" id="nine">
+                                  <label class="form-check-label" for="time">
+                                    9:00 AM - 10:00 AM
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ nine2 }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="10:00 AM - 11:00 AM" formControlName="time" name="time" id="ten">
+                                  <label class="form-check-label" for="time">
+                                    10:00 AM - 11:00 AM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ ten2 }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="1:00 PM - 2:00 PM" formControlName="time" name="time" id="one">
+                                  <label class="form-check-label" for="time">
+                                    1:00 PM - 2:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ one2 }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="2:00 PM - 3:00 PM" formControlName="time" name="time" id="two">
+                                  <label class="form-check-label" for="time">
+                                    2:00 PM - 3:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ two2 }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="3:00 PM - 4:00 PM" formControlName="time" name="time" id="three">
+                                  <label class="form-check-label" for="time">
+                                    3:00 PM - 4:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ three2 }}</p>
+                              </div>
+                            </div>
+
+                            <div class="row slots">
+                              <div class="col">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="radio" [(ngModel)]="time" value="4:00 PM - 5:00 PM" formControlName="time" name="time" id="four">
+                                  <label class="form-check-label" for="time">
+                                    4:00 PM - 5:00 PM
+                                  </label>
+                                </div>
+                              </div>
+
+                              <div class="col-lg-6 slotMove">
+                                <p>Slots Left: {{ four2 }}</p>
+                              </div>
+                            </div>-
+                            </div>
+
+                      </div>
+                      </ng-container>
+                    </div>
+                  </div>
+               </div>
+            </ion-col>
+          </ion-row>
+        </div>
+      </div>
+
+    </div>
+    <div class="card personalInfo">
+      <div class="card-body">
+        <div class="col-lg-8">
+          <h1>Personal Information</h1>
+        </div>
+      <div class="row">
+        <div class="col-lg-3">
+          <label for="fname">First Name</label>
+          <input type="text" class="form-control" maxlength="64" minlength="2" formControlName="fname" placeholder="ex: John Kenneth">
+          <div *ngIf="this.fc['fname'].errors && isSubmitted">
+              <div class="alert alert-danger" role="alert" *ngIf="this.fc['fname'].hasError('required')">First Name Field is Required</div>
+              <div class="alert alert-danger" role="alert" *ngIf="this.fc['fname'].hasError('pattern')">Incorrect Name Format</div>
+              <div class="alert alert-danger" role="alert" *ngIf="this.fc.fname.errors.min">Name should have a minimum length of 2 characters</div>
+          </div>
+
+        </div>
+        <div class="col-lg-3">
+          <label for="mname">Middle Name</label>
+          <input type="text" class="form-control" maxlength="64" minlength="2" formControlName="mname" placeholder="ex: Hipolito">
+          <div *ngIf="this.fc['mname'].errors && isSubmitted">
+              <div class="alert alert-danger" role="alert" *ngIf="this.fc['mname'].hasError('pattern')">Incorrect Name Format</div>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <label for="lname">Last Name</label>
+          <input type="text" class="form-control" maxlength="64" minlength="2" formControlName="lname" placeholder="ex: Vallejo">
+          <div *ngIf="this.fc['lname'].errors && isSubmitted">
+              <div class="alert alert-danger" role="alert" *ngIf="this.fc['lname'].hasError('required')">Last Name Field is Required</div>
+              <div class="alert alert-danger" role="alert" *ngIf="this.fc['lname'].hasError('pattern')">Incorrect Name Format</div>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <label for="suffix">Suffix</label>
+          <input type="text" class="form-control" maxlength="3" minlength="1" formControlName="suffix" placeholder="ex: Jr.">
+          <div *ngIf="this.fc['suffix'].errors && isSubmitted">
+              <div class="alert alert-danger" role="alert" *ngIf="this.fc['suffix'].hasError('pattern')">Incorrect Suffix Format</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <label for="email">PUP Web Mail Address</label>
+            <div class="input-group">
+              <input type="text" class="form-control" maxlength="64" minlength="2" formControlName="email">
+              <div class="input-group-append">
+                <input type="text" class="form-control" formControlName="suffixEmail">
+              </div>
+              <div *ngIf="this.fc['email'].errors && isSubmitted">
+                  <div class="alert alert-danger" role="alert" *ngIf="this.fc['email'].hasError('required')">Email Field is Required</div>
+              </div>
+            </div>
+            <div class="row">
+              <ng-container *ngIf="disable">
+                <div class="form-group">
+                  <button type="button" class="btn btn-danger" (click)="sendCode()">Send Verification Code</button>
+
+                </div>
+              </ng-container>
+              <ng-container *ngIf="!disable">
+                <p>Resend Code in: {{countdown}}</p>
+              </ng-container>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <label for="verifyEmail">Verification Code</label>
+            <div class="input-group">
+              <input type="text" class="form-control" formControlName="verifyEmail">
+            </div>
+            <button type="button" class="btn btn-warning" (click)="verifyCode()">Verify Email</button>
+          </div>
+          <div class="col-lg-3">
+            <label for="contactno">Contact Number</label>
+            <input type="text" class="form-control" maxlength="11" formControlName="contactno" placeholder="ex: 09XXXXXXXXX">
+            <div *ngIf="this.fc['contactno'].errors && isSubmitted">
+                <div class="alert alert-danger" role="alert" *ngIf="this.fc['fname'].hasError('required')">Contact Number Field is Required</div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+        <div class="col-lg-4">
+          <label for="course">Course</label>
+          <select class="form-select" formControlName='course' aria-label="Select Transaction">
+            <option selected disabled>Select Transaction</option>
+            <option value="BSA">Bachelor of Science in Accountancy</option>
+            <option value="BSECE">Bachelor of Science in Electronics and Communication Engineering</option>
+            <option value="BSIE">Bachelor of Science in Industrial Engineering</option>
+            <option value="BSP">Bachelor of Science in Clinical Psychology</option>
+            <option value="BSIT">Bachelor of Science in Information Technology</option>
+            <option value="BSED-ENG">Bachelor of Science in Education major in English</option>
+            <option value="BSED-MATH">Bachelor of Science in Education major in Mathematics</option>
+            <option value="BSBA-MARKETING">Bachelor of Science in Business Administration major in Marketing Management</option>
+            <option value="BSEM">Bachelor of Science in Entrepreneurial Management</option>
+          </select>
+          <div *ngIf="this.fc['course'].errors && isSubmitted">
+              <div class="alert alert-danger" role="alert" *ngIf="this.fc['course'].hasError('required')">Course Field is Required</div>
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <label for="yearAndSection">Year/Section</label>
+          <select class="form-select" formControlName="yearAndSection"  aria-label="Select Transaction">
+            <option selected disabled>Select Transaction</option>
+            <option value="1-1">1-1</option>
+            <option value="1-2">1-2</option>
+            <option value="1-3">1-3</option>
+            <option value="1-4">1-4</option>
+            <option value="1-5">1-5</option>
+            <option value="2-1">2-1</option>
+            <option value="2-2">2-2</option>
+            <option value="2-3">2-3</option>
+            <option value="2-4">2-4</option>
+            <option value="2-5">2-5</option>
+            <option value="3-1">3-1</option>
+            <option value="3-2">3-2</option>
+            <option value="3-3">3-3</option>
+            <option value="3-4">3-4</option>
+            <option value="3-5">3-5</option>
+            <option value="4-1">4-1</option>
+            <option value="4-2">4-2</option>
+            <option value="4-3">4-3</option>
+            <option value="4-4">4-4</option>
+            <option value="4-5">4-5</option>
+          </select>
+          <div *ngIf="this.fc['yearAndSection'].errors && isSubmitted">
+              <div class="alert alert-danger" role="alert" *ngIf="this.fc['yearAndSection'].hasError('required')">Year And Section Name Field is Required</div>
+          </div>
+        </div>
+        <div class="col-lg-2">
+          <label for="gender">Gender</label>
+          <select class="form-select" formControlName="gender" aria-label="Select Transaction">
+            <option selected disabled>Select Transaction</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="others">Others</option>
+          </select>
+           <div *ngIf="this.fc['gender'].errors && isSubmitted">
+              <div class="alert alert-danger" role="alert" *ngIf="this.fc['gender'].hasError('required')">Gender Field is Required</div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+          <label for="studno">Student Number</label>
+          <input type="text" formControlName="studno" class="form-control" placeholder="ex: 2019-00127-SR-0">
+          <div *ngIf="this.fc['studno'].errors && isSubmitted">
+              <div class="alert alert-danger" role="alert" *ngIf="this.fc['studno'].hasError('required')">Student Number Field is Required</div>
+              <div class="alert alert-danger" role="alert" *ngIf="this.fc['studno'].hasError('pattern')">Invalid Student Number Format</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-3">
+            <label for="birthday">Birthday</label>
+            <input type="date" [(ngModel)]="bday" formControlName="birthday" class="form-control" id="birthday">
+            <div *ngIf="this.fc.birthday.errors && isSubmitted">
+              <div class="alert alert-danger" role="alert" *ngIf="this.fc.birthday.hasError('required')">Birthday Field is Required</div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label for="homeAddress">Home Address</label>
+            <input type="text" class="form-control" formControlName="homeAddress">
+            <div *ngIf="this.fc.homeAddress.errors && isSubmitted">
+              <div class="alert alert-danger" role="alert" *ngIf="this.fc.homeAddress.hasError('required')">Home Address Field is Required</div>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <label for="baranggay">Baranggay</label>
+            <input type="text" class="form-control" formControlName="baranggay">
+            <div *ngIf="this.fc.baranggay.errors && isSubmitted">
+              <div class="alert alert-danger" role="alert" *ngIf="this.fc.baranggay.hasError('required')">Baranggay Field is Required</div>
+            </div>
+          </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-3">
+              <label for="province">Province</label>
+              <select class="form-select" (ngModelChange)="changeProvince($event)" formControlName="province" aria-label="Select Province">
+                <option selected disabled>Select Province</option>
+                <option  *ngFor="let p of provinces" [ngValue]="p.province">{{ p.province }}</option>
+              </select>
+              <div *ngIf="this.fc.province.errors && isSubmitted">
+                <div class="alert alert-danger" role="alert" *ngIf="this.fc.province.hasError('required')">Province Field is Required</div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <label for="city">City/Municipality</label>
+              <select class="form-select" formControlName="city" aria-label="Select City/Municipality">
+                <option selected disabled>Select Province</option>
+                <option *ngFor="let c of cities" [ngValue]="c.city">{{ c.city }}</option>
+              </select>
+              <div *ngIf="this.fc.city.errors && isSubmitted">
+                <div class="alert alert-danger" role="alert" *ngIf="this.fc.city.hasError('required')">City/Municipality Field is Required</div>
+              </div>
+            </div>
+            <div class="col-lg-6 mt-4">
+               <div class="row">
+                <div class="col-lg-12 sub">
+                  <div class="row">
+                    <div class="col-lg-9">
+                      By submitting, you are agreeing to <a href="https://www.pup.edu.ph/privacy/">PUP Privacy Statement</a>
+                    </div>
+                    <div class="col-lg-3">
+                      <input type="submit" class="btn btn-primary submit" value="Submit">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </form>
+  </div>
+</div>
+</div>
+
+</body>

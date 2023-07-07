@@ -1,0 +1,14 @@
+{
+  "hosting": [
+    {
+      "target": "angular-pupaa",
+      "source": ".",
+      "rules": {
+        ".read": true,
+        ".write": true
+      },
+      "frameworksBackend": {}
+
+    }
+  ]
+}

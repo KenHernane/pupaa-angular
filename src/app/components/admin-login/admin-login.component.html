@@ -1,0 +1,57 @@
+
+  <body>
+    <div id="login-page">
+      <div class="login">
+        <h2 class="login-title">Admin Login</h2>
+        <p class="notice">Please login to access the system</p>
+        <form class="form-login" [formGroup]="login" (ngSubmit)="onSubmit()" id="form" class="form">
+          <label for="email">Username</label>
+          <div class="input-email">
+            <i class="fas fa-envelope icon"></i>
+            <input
+              type="text"
+              name="username"
+              id="email"
+              placeholder="Enter your e-mail"
+              formControlName="username"
+              [(ngModel)]="username"
+              maxlength="24"
+              required
+            />
+          </div>
+            <label for="password">Password</label>
+            <div class="input-password">
+              <i class="fas fa-lock icon"></i>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                maxlength="24"
+                formControlName="password"
+                [(ngModel)]="Password"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+          <div class="row">
+            <div class="col-sm-9">
+              <div class="form-group">
+                <button type="submit" id="submit" [disabled]="isDisabled" name="submit" class="btn btn-primary">Sign-In</button>
+              </div>
+            </div>
+            <ng-container *ngIf="isSubmitted && !invalid">
+            <div class="col-sm-3 mt-4">
+                <div class="clearfix">
+                  <div class="spinner-border float-right" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </div>
+            </div>
+            </ng-container>
+          </div>
+        </form>
+
+        </div>
+      <div class="background"></div>
+    </div>
+  </body>

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "pupaa-angular": {
+      "hosting": {
+        "angular-pupaa": [
+          "pupaa-angular"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "pupaa-angular"
+  }
+}

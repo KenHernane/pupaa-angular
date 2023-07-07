@@ -1,0 +1,33 @@
+.btn-check:checked + .btn, :not(.btn-check) + .btn:active, .btn:first-child:active, .btn.active, .btn.show {
+  color: goldenrod;
+  background-color: rgb(91, 0, 0);
+  border-color: rgb(91, 0, 0);
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color: maroon;
+    border-color: maroon;
+    color: goldenrod;
+  }
+  
+  .btn:hover {
+    color: goldenrod;
+    background-color: rgb(91, 0, 0);
+    border-color: rgb(91, 0, 0);
+  }
+  
+  .btn-primary {
+    color: #fff;
+    background-color: maroon;
+    border-color: maroon;
+  }
+  .nav-link:hover {
+    color: goldenrod !important;
+  }
+
+  .active {
+    border-bottom: goldenrod 3px solid !important;
+    width: fit-content;
+    margin-top: 2px;
+    transition: .1s ease-in;
+  }

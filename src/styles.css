@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('./assets/homepage-assets/bootstrap/css/bootstrap.min.css');
+@import url('./assets/animate.min.css');
+@import url('./assets/accordion-faq-list.css');
+@import url('./assets/Gamanet_Footer_bs5.css');
+@import url('./assets/Hero-Clean-images.css');
+@import url("https://use.fontawesome.com/releases/v5.12.0/css/all.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.2/css/theme.bootstrap_4.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css");
+
+.fc-daygrid-day-number {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+
+}
+.fc-daygrid-day-number:hover{
+  color: #ffa500;
+}
+.fc-col-header-cell-cushion {
+  color: black;
+  font-family: "Inter", sans-serif;
+  text-decoration: none;
+}
+.fc-daygrid-day-frame {
+  color: white;
+}
+.fc-toolbar-title {
+  color: black;
+  font-family: "Inter", sans-serif;
+
+}
